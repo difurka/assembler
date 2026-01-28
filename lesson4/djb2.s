@@ -32,6 +32,7 @@ addw t1, t1, t2 # t1 = 32 * hash + hash = 33 * hash
 addw t1, t1, t0 # t1 = 33 * hash + char
 addi a0, a0, 1 # next iteration
 j djb2_loop
+
 dbj2_end:
 mv a0, t1 # return hash value
 ret
