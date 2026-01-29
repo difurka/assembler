@@ -33,3 +33,17 @@ word:
 	export QEMU_LD_PREFIX=/usr/riscv64-linux-gnu/
 # 	qemu-riscv64-static wordcount << text.txt
 	./wordcount << text.txt
+
+task4_example:
+	riscv64-linux-gnu-as -o task4_example.o task4_example.s
+	riscv64-linux-gnu-gcc -o task4_example task4_example.o
+	export QEMU_LD_PREFIX=/usr/riscv64-linux-gnu/
+# 	qemu-riscv64-static task4_example << text.txt
+	./task4_example << text.txt
+
+sol4:
+	riscv64-linux-gnu-as -o solution.o solution.s
+	riscv64-linux-gnu-gcc -o solution solution.o
+	export QEMU_LD_PREFIX=/usr/riscv64-linux-gnu/
+# 	qemu-riscv64-static solution << text2.txt
+	./solution << text2.txt

@@ -1,5 +1,10 @@
+.equ write, 64
+.equ exit, 93
+
 .section .text
 .globl main # run in C 'environment'
+
+
 main:
 addi sp, sp, -40 # store ra (return address) and saved regs on stack
 sd ra, 0(sp)
@@ -15,6 +20,7 @@ li s3, 0 # indicator if current input is in word
 
 loop:
 call getchar # get input from stdin in a0
+
 bltz a0, end # if end of file (eof is -1) goto end
 
 addi s0, s0, 1 # count characters
@@ -58,6 +64,15 @@ ld ra, 0(sp) # restore ra
 addi sp, sp, 40
 ret # return to caller
 
+
+
+
 .section .rodata
 result:
 .asciz "Lines: %u Words: %u Chars: %u\n" # write out result
+
+msgsize:
+.byte 1  # Размер = текущий адрес - адрес msgbegin
+
+msgbegin:
+.ascii "\n"  # Массив ASCII байтов (13 символов)
