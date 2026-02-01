@@ -1,0 +1,4 @@
+MOVI D, 0x1F
+IN D
+SUB A, C
+DIV D, C
