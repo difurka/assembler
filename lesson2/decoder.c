@@ -3,7 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "instruction.h"
+// #include "instruction.h"
+
+enum reg_t {A=0, B=1, C = 2, D=3};
 
 static char  parse_reg(const enum reg_t reg) {
     switch (reg)
@@ -25,16 +27,15 @@ void decode_movi(int value, char* decode) {
     char int_to_str[16];
     sprintf(int_to_str, "%d", value & 127);
     strcat(decode, int_to_str);
-    // printf("dec= %s\n", decode);
 }
 
 void decode_alg(int value, char* decode) {
-    char rx = parse_reg(value&12);
+    char rx = parse_reg((value>>2)&3);
     char rs = parse_reg(value&3);
     char* oper;
     switch (value >>4) {
         case 8:
-            oper = "SUM ";
+            oper = "ADD ";
             break;
         case 9:
             oper = "SUB ";
@@ -48,12 +49,10 @@ void decode_alg(int value, char* decode) {
     }
     strcpy(decode, oper);
     decode[4] = rx;
-    decode[5] = ' ';
-    decode[6] = rs;
-    decode[7] = '\0';
-    // strcat(decode, rx);
-    // strcat(decode, " ");
-    // strcat(decode, rs);
+    decode[5] = ',';
+    decode[6] = ' ';
+    decode[7] = rs;
+    decode[8] = '\0';
 }
 
 void decode_io(int value, char* decode) {
@@ -63,22 +62,16 @@ void decode_io(int value, char* decode) {
         case 48:
             oper = "IN ";
             strcpy(decode, oper);
-            decode[3] = parse_reg(value&12);
+            decode[3] = parse_reg(value&3);
             decode[4] = '\0';
             break;
         case 49:
             oper = "OUT ";
             strcpy(decode, oper);
-            decode[4] = parse_reg(value&12);
+            decode[4] = parse_reg(value&3);
             decode[5] = '\0';
             break;
     }
-    // strcpy(decode, oper);
-    // decode[4] = parse_reg(value&12);
-    // decode[7] = '\0';
-    // strcat(decode, rx);
-    // strcat(decode, " ");
-    // strcat(decode, rs);
 }
 
 int main() {
@@ -97,12 +90,10 @@ int main() {
             // printf("v= %b, io\n", value);
             decode_io(value, decode);
         } else {
-            // printf("v= %d, ERROR",value >>2);
+            printf("ERROR\n");
             break;
         }
-        printf("%b, %s ", value, decode);
+        printf("%s\n", decode);
         fflush(stdout);
-        printf("\n");
     }
-    // printf("\n");
 }
