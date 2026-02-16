@@ -1,7 +1,7 @@
 all:
 	gcc -O0 -g -c instruction.c
 	gcc -O0 -g decoder.c instruction.o
-	./a.out < input_dec.txt
+	./a.out < input_decoder.txt
 
 encoder:
 	gcc -O0 -g -c instruction.c
